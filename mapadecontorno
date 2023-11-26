@@ -1,0 +1,39 @@
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Criar dados para o mapa de contorno no plano complexo
+x_complex = np.linspace(-2, 2, 400)
+y_complex = np.linspace(-2, 2, 400)
+X_complex, Y_complex = np.meshgrid(x_complex, y_complex)
+Z_complex = X_complex + 1j * Y_complex
+
+# Calcular a função no plano complexo (exemplo: função quadrática)
+W_complex = Z_complex**2
+
+# Plotar o mapa de contorno no plano complexo
+plt.figure(figsize=(12, 6))
+plt.subplot(1, 2, 1)
+plt.contour(X_complex, Y_complex, np.real(W_complex), levels=20, cmap='viridis')
+plt.title('Mapa de Contorno (Parte Real) - Plano Complexo')
+plt.xlabel('Parte Real')
+plt.ylabel('Parte Imaginária')
+plt.grid(True)
+
+# Criar dados para o mapa de contorno no plano real
+x_real = np.linspace(-2, 2, 400)
+y_real = np.linspace(-2, 2, 400)
+X_real, Y_real = np.meshgrid(x_real, y_real)
+
+# Calcular a função no plano real (exemplo: função quadrática)
+W_real = X_real**2 + Y_real**2
+
+# Plotar o mapa de contorno no plano real
+plt.subplot(1, 2, 2)
+plt.contour(X_real, Y_real, W_real, levels=20, cmap='viridis')
+plt.title('Mapa de Contorno - Plano Real')
+plt.xlabel('Eixo X')
+plt.ylabel('Eixo Y')
+plt.grid(True)
+
+plt.tight_layout()
+plt.show()

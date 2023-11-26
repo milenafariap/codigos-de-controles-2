@@ -1,0 +1,23 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+def frequencia_ressonancia(massa, const_elastica):
+    return 1 / (2 * np.pi) * np.sqrt(const_elastica / massa)
+
+# Parâmetros do sistema
+massa = 1.0  # massa do sistema
+const_elastica = 4.0  # constante elástica da mola
+
+# Intervalo de valores para a constante elástica
+const_elastica_values = np.linspace(1.0, 10.0, 100)
+
+# Calcular as frequências de ressonância para diferentes constantes elásticas
+frequencias = [frequencia_ressonancia(massa, k) for k in const_elastica_values]
+
+# Plotar o gráfico
+plt.plot(const_elastica_values, frequencias)
+plt.title('Frequência de Ressonância em Função da Constante Elástica')
+plt.xlabel('Constante Elástica')
+plt.ylabel('Frequência de Ressonância')
+plt.grid(True)
+plt.show()

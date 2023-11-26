@@ -1,0 +1,35 @@
+import control as ctrl
+import matplotlib.pyplot as plt
+
+# Defina a função de transferência do sistema (por exemplo, G(s) = 1 / (s^2 + 3s + 2))
+numerator = [1]
+denominator = [1, 3, 2]  # (s+1)(s+2)
+system = ctrl.TransferFunction(numerator, denominator)
+
+# Calcule a resposta ao degrau do sistema não controlado
+time_uncontrolled, response_uncontrolled = ctrl.step_response(system)
+
+# Plote a resposta ao degrau do sistema não controlado
+plt.figure(figsize=(8, 6))
+plt.plot(time_uncontrolled, response_uncontrolled, label='Sem Controle')
+
+# Projete um controlador PID
+kp = 2  # Ganho proporcional
+ki = 1  # Ganho integral
+kd = 0.5  # Ganho derivativo
+controller = ctrl.TransferFunction([kd, kp, ki], [1, 0])
+
+# Sistema em malha fechada (planta + controlador)
+system_with_pid = ctrl.feedback(system * controller)
+
+# Calcule a resposta ao degrau do sistema com PID
+time_controlled, response_controlled = ctrl.step_response(system_with_pid)
+
+# Plote a resposta ao degrau do sistema com PID
+plt.plot(time_controlled, response_controlled, label='Com PID')
+plt.title('Resposta ao Degrau - Sistema Não Controlado e Controlado com PID')
+plt.xlabel('Tempo')
+plt.ylabel('Amplitude')
+plt.legend()
+plt.grid(True)
+plt.show()

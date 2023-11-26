@@ -1,0 +1,42 @@
+import matplotlib.pyplot as plt
+import control as ctrl
+import numpy as np
+
+# Sistema original
+num_sistema_original = [10]
+den_sistema_original = [1, 2, 10]
+
+sistema_original = ctrl.TransferFunction(num_sistema_original, den_sistema_original)
+
+# Controlador
+num_control = [1, 0.4]
+den_control = [1, 40]
+K = 10
+
+controlador = ctrl.TransferFunction(K * num_control, den_control)
+
+# sistema Controlado
+num_controlador = np.convolve(num_control, num_sistema_original)
+den_controlador = np.convolve(den_control, den_sistema_original)
+
+sistema_controlado = ctrl.TransferFunction(num_controlador, den_controlador)
+
+
+# Frequências para o gráfico de Bode
+omega = np.logspace(-1, 2, 100)
+
+# Diagrama de Bode para o sistema original e controlado na mesma janela
+plt.figure(figsize=(12, 6))
+
+# Sistema original em azul
+plt.subplot(2, 1, 1)
+magnitude_original, phase_original, omega_original = ctrl.bode(sistema_original, omega, dB=True, Hz=True)
+plt.title('Diagrama de Bode - Sistema Original')
+
+# Sistema controlado em laranja
+plt.subplot(2, 1, 2)
+magnitude_controlado, phase_controlado, omega_controlado = ctrl.bode(sistema_controlado, omega, dB=True, Hz=True)
+plt.title('Diagrama de Bode - Sistema Controlado')
+
+plt.tight_layout()
+plt.show()

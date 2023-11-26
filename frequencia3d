@@ -1,0 +1,34 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
+
+def frequencia_ressonancia(massa, const_elastica):
+    return 1 / (2 * np.pi) * np.sqrt(const_elastica / massa)
+
+# Parâmetros do sistema
+massa_values = np.linspace(0.1, 5.0, 50)
+const_elastica_values = np.linspace(1.0, 10.0, 50)
+
+# Criação de uma grade 2D para as variáveis massa e constante elástica
+massa_grid, const_elastica_grid = np.meshgrid(massa_values, const_elastica_values)
+
+# Calcula as frequências de ressonância para diferentes combinações de massa e constante elástica
+frequencias = frequencia_ressonancia(massa_grid, const_elastica_grid)
+
+# Plotagem 3D
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+# Plota a superfície 3D
+surface = ax.plot_surface(massa_grid, const_elastica_grid, frequencias, cmap='viridis')
+
+# Adiciona uma barra de cores
+fig.colorbar(surface, ax=ax, label='Frequência de Ressonância')
+
+# Configurações do gráfico
+ax.set_title('Frequência de Ressonância em Função de Massa e Constante Elástica')
+ax.set_xlabel('Massa')
+ax.set_ylabel('Constante Elástica')
+ax.set_zlabel('Frequência de Ressonância')
+
+plt.show()
